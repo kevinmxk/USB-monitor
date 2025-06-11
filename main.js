@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron/main')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron/main')
 const path = require('path')
 
 const createWindow = () => {
@@ -6,7 +6,10 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true, // 必须启用
+      sandbox: true,          // 推荐启用
+      nodeIntegration: false  // 建议设为 false，由 preload 提供能力
     }
   })
 
@@ -29,3 +32,14 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+ipcMain.handle('save-file-dialog', async (event, options) => {
+  const { fileName, filters } = options;
+
+  const result = await dialog.showSaveDialog(BrowserWindow.getFocusedWindow(), {
+    defaultPath: fileName,
+    filters
+  });
+
+  return result.filePath; // 返回用户选择的路径
+});
