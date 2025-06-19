@@ -1,23 +1,14 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  // °æ±¾ÐÅÏ¢
+  // ç‰ˆæœ¬ä¿¡æ¯
   versions: {
     node: () => process.versions.node,
     chrome: () => process.versions.chrome,
     electron: () => process.versions.electron
   },
-  // ÎÄ¼þ±£´æ¶Ô»°¿ò
+  // æ–‡ä»¶ä¿å­˜å¯¹è¯æ¡†
   saveFileDialog: (options) => ipcRenderer.invoke('save-file-dialog', options),
-  // ²âÊÔ·½·¨
-  testClick: () => {
-    console.log('°´Å¥µã»÷³É¹¦£¡');
-  }
+  // èŽ·å–åŽç«¯ç«¯å£
+  getBackendPort: () => ipcRenderer.invoke('get-backend-port')
 })
-
-// Ìí¼ÓÒ»¸ö²âÊÔ·½·¨£¬ÓÃÓÚµ÷ÊÔ
-// contextBridge.exposeInMainWorld('electronAPI', {
-//   testClick: () => {
-//     console.log('°´Å¥µã»÷³É¹¦£¡');
-//   }
-// });
