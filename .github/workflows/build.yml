@@ -1,0 +1,126 @@
+name: Build and Test
+
+# 触发条件
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+# 环境变量
+env:
+  ELECTRON_CACHE: ~/.cache/electron
+  ELECTRON_BUILDER_CACHE: ~/.cache/electron-builder
+
+jobs:
+  # Windows 构建任务
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm run postinstall
+        
+    - name: Build Windows application
+      run: npm run dist:win
+      
+    - name: Upload Windows artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build-${{ github.sha }}
+        path: |
+          dist/*.exe
+          dist/*.zip
+        retention-days: 7
+
+  # Linux 构建任务
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          libnss3-dev \
+          libatk-bridge2.0-dev \
+          libdrm2 \
+          libgtk-3-dev \
+          libgbm-dev \
+          rpm \
+          fakeroot \
+          dpkg-dev
+          
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm run postinstall
+        
+    - name: Build Linux application
+      run: npm run dist:linux
+      
+    - name: Upload Linux artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-build-${{ github.sha }}
+        path: |
+          dist/*.AppImage
+          dist/*.deb
+          dist/*.rpm
+          dist/*.tar.gz
+        retention-days: 7
+
+  # macOS 构建任务（可选）
+  build-macos:
+    name: Build macOS
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm run postinstall
+        
+    - name: Build macOS application
+      run: npm run dist:mac
+      
+    - name: Upload macOS artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-build-${{ github.sha }}
+        path: |
+          dist/*.dmg
+          dist/*.zip
+        retention-days: 7

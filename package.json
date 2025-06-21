@@ -1,22 +1,59 @@
 {
   "name": "usbviewer",
-  "version": "1.0.2",
+  "version": "1.1.1",
   "description": "A lightweight utility application that monitors and displays all USB devices currently connected to a computer. The software provides real-time visualization of mounted USB drives, including detailed information such as device name, storage capacity, connection status, and file system format. Users can quickly access historical connection records and receive notifications for new device connections.",
   "main": "main.js",
+  "homepage": "https://github.com/your-username/usbviewer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/usbviewer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/usbviewer/issues"
+  },
+  "keywords": [
+    "electron",
+    "usb",
+    "monitor",
+    "device",
+    "utility"
+  ],
   "scripts": {
     "start": "electron .",
+    "dev": "electron . --dev",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --win",
-    "postinstall": "electron-builder install-app-deps"
+    "dist": "electron-builder --win --linux",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux",
+    "dist:mac": "electron-builder --mac",
+    "dist:all": "electron-builder --win --linux --mac",
+    "dist:linux-safe": "electron-builder --linux --target deb --target tar.gz",
+    "build:clean": "rimraf dist",
+    "prebuild": "npm run build:clean",
+    "postinstall": "electron-builder install-app-deps",
+    "rebuild": "electron-rebuild",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"No linting configured\"",
+    "prepare": "npm run build:clean"
   },
-  "author": "kevin huang",
+  "author": {
+    "name": "Kevin Huang",
+    "email": "kevin@example.com"
+  },
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.9.0"
+    "axios": "^1.9.0",
+    "bootstrap": "^5.3.0"
   },
   "devDependencies": {
     "electron": "^23.1.3",
-    "electron-builder": "^24.13.3"
+    "electron-builder": "^24.13.3",
+    "electron-rebuild": "^3.2.9",
+    "rimraf": "^5.0.10"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   },
   "build": {
     "appId": "com.kevin.usbviewer",
@@ -26,6 +63,20 @@
       "output": "dist",
       "buildResources": "resources"
     },
+    "files": [
+      "main.js",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json",
+      "node_modules/**/*",
+      "!node_modules/.cache/**/*",
+      "!node_modules/**/test/**/*",
+      "!node_modules/**/tests/**/*",
+      "!node_modules/**/*.md",
+      "!node_modules/**/LICENSE*",
+      "!**/.git/**/*",
+      "!**/node_modules/**/README*"
+    ],
     "extraResources": [
       {
         "from": "resources/USBmonitor-4.jar",
@@ -36,48 +87,163 @@
         "to": "icon.ico"
       },
       {
+        "from": "resources/icon.png",
+        "to": "icon.png"
+      },
+      {
         "from": "resources/jdk",
-        "to": "jdk"
+        "to": "jdk",
+        "filter": [
+          "!**/src.zip",
+          "!**/javafx-src.zip",
+          "!**/lib/src.zip"
+        ]
+      },
+      {
+        "from": "assets",
+        "to": "assets"
       }
     ],
     "win": {
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "x64"
-          ]
+          "arch": ["x64", "ia32"]
         },
         {
           "target": "portable",
-          "arch": [
-            "x64"
-          ]
+          "arch": ["x64", "ia32"]
         }
       ],
       "icon": "resources/icon.ico",
-      "signAndEditExecutable": false
+      "signAndEditExecutable": false,
+      "requestedExecutionLevel": "asInvoker",
+      "fileAssociations": [
+        {
+          "ext": "usb",
+          "name": "USB Device File",
+          "description": "USB device configuration file",
+          "icon": "resources/icon.ico"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        },
+        {
+          "target": "tar.gz",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "resources/icon.png",
+      "category": "Utility",
+      "maintainer": "Kevin Huang <kevin@example.com>",
+      "vendor": "Kevin Huang",
+      "synopsis": "USB Device Monitor and Viewer",
+      "description": "A lightweight utility for monitoring USB devices with real-time visualization and connection history.",
+      "desktop": {
+        "Name": "USB Viewer",
+        "Comment": "Monitor and view USB devices",
+        "Keywords": "USB;Device;Monitor;Hardware;",
+        "StartupNotify": "true",
+        "MimeType": "application/x-usb-device;"
+      }
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "resources/icon.icns",
+      "category": "public.app-category.utilities",
+      "darkModeSupport": true
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "USB Viewer",
       "installerIcon": "resources/icon.ico",
       "uninstallerIcon": "resources/icon.ico",
       "installerHeaderIcon": "resources/icon.ico",
-      "artifactName": "USBViewer-Setup-${version}.${ext}",
+      "artifactName": "USBViewer-Setup-${version}-${arch}.${ext}",
       "perMachine": true,
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "runAfterFinish": false,
+      "menuCategory": "System Tools",
+      "include": "build/installer.nsh"
     },
     "portable": {
-      "artifactName": "USBViewer-Portable-${version}.${ext}"
+      "artifactName": "USBViewer-Portable-${version}-${arch}.${ext}"
+    },
+    "appImage": {
+      "artifactName": "USB-Viewer-${version}-${arch}.${ext}"
+    },
+    "deb": {
+      "depends": [
+        "gconf2",
+        "gconf-service", 
+        "libxss1",
+        "libappindicator1",
+        "libasound2",
+        "libxtst6",
+        "xdg-utils",
+        "libgtk-3-0",
+        "libxrandr2",
+        "libasound2-dev",
+        "libpangocairo-1.0-0",
+        "libatk1.0-0",
+        "libcairo-gobject2",
+        "libgtk-3-0",
+        "libgdk-pixbuf2.0-0"
+      ],
+      "recommends": [
+        "pulseaudio"
+      ],
+      "afterInstall": "build/deb-postinst.sh",
+      "afterRemove": "build/deb-postrm.sh"
+    },
+    "rpm": {
+      "depends": [
+        "libXScrnSaver",
+        "libappindicator",
+        "libnotify",
+        "gtk3",
+        "libxrandr",
+        "alsa-lib"
+      ],
+      "afterInstall": "build/rpm-postinst.sh",
+      "afterRemove": "build/rpm-postrm.sh"
     },
     "asar": true,
     "asarUnpack": [
-      "resources/**"
+      "resources/**/*",
+      "node_modules/native-modules/**/*"
     ],
-    "forceCodeSigning": false
+    "forceCodeSigning": false,
+    "compression": "maximum",
+    "publish": null,
+    "buildDependenciesFromSource": false,
+    "nodeGypRebuild": false,
+    "buildVersion": "1.1.1"
   }
 }
