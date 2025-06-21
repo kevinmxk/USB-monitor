@@ -1,33 +1,83 @@
-USB Viewer ä½¿ç”¨è¯´æ˜Ž
+# USB Viewer
 
-ã€è¿è¡ŒçŽ¯å¢ƒè¦æ±‚ã€‘
-1. Windows 7 æˆ–æ›´é«˜ç‰ˆæœ¬çš„æ“ä½œç³»ç»Ÿ
-2. Java è¿è¡ŒçŽ¯å¢ƒ (JRE 8 æˆ–æ›´é«˜ç‰ˆæœ¬)
-3. ç¡®ä¿ 8080 ç«¯å£æœªè¢«å ç”¨
+Ò»¸ö»ùÓÚ Electron + Spring Boot µÄ USB Éè±¸¼à¿Ø¹¤¾ß¡£
 
-ã€é¦–æ¬¡ä½¿ç”¨å‰ã€‘
-1. å®‰è£… Java è¿è¡ŒçŽ¯å¢ƒï¼š
-   - è®¿é—® https://www.java.com ä¸‹è½½æœ€æ–°ç‰ˆæœ¬
-   - æŒ‰ç…§å‘å¯¼å®Œæˆå®‰è£…
-   - é‡å¯ç”µè„‘
+## ¹¦ÄÜÌØÐÔ
+- ÊµÊ±¼à¿Ø²¢Õ¹Ê¾ËùÓÐÒÑÁ¬½Ó USB Éè±¸
+- ÏÔÊ¾Éè±¸Ãû³Æ¡¢³§ÉÌ¡¢ÈÝÁ¿¡¢ÎÄ¼þÏµÍ³µÈÏêÏ¸ÐÅÏ¢
+- Éè±¸²å°ÎÀúÊ·¼ÇÂ¼¡¢³§ÉÌÍ³¼Æ¡¢Ê±¼äÐòÁÐ·ÖÎö
+- Ö§³ÖÊý¾Ýµ¼³ö£¨JSON/CSV£©
+- Ò»¼üË¢ÐÂ¡¢Ìõ¼þ¹ýÂË
+- Ö§³Ö Windows 7 ¼°ÒÔÉÏÏµÍ³
 
-2. éªŒè¯ Java å®‰è£…ï¼š
-   - æŒ‰ Win + R æ‰“å¼€è¿è¡Œ
-   - è¾“å…¥ cmd æ‰“å¼€å‘½ä»¤æç¤ºç¬¦
-   - è¾“å…¥ java -version ç¡®è®¤å®‰è£…æˆåŠŸ
+## Ä¿Â¼½á¹¹
+```
+my-electron-app/
+©À©¤©¤ assets/                  # Ç°¶ËÒÀÀµ£¨Èç bootstrap.min.css/js£©
+©À©¤©¤ resources/               # Í¼±ê¡¢ºó¶Ë JAR¡¢JDK£¨²»½¨ÒéÉÏ´« JDK/JAR£©
+©À©¤©¤ main.js                  # Electron Ö÷½ø³Ì
+©À©¤©¤ preload.js               # Ô¤¼ÓÔØ½Å±¾
+©À©¤©¤ renderer.js              # äÖÈ¾½ø³Ì
+©À©¤©¤ index.html               # Ç°¶ËÒ³Ãæ
+©À©¤©¤ styles.css               # ÑùÊ½ÎÄ¼þ
+©À©¤©¤ package.json             # ÏîÄ¿ÅäÖÃ
+©À©¤©¤ README.md                # Ê¹ÓÃËµÃ÷
+©¸©¤©¤ .gitignore               # Git ºöÂÔÎÄ¼þ
+```
 
-ã€å¸¸è§é—®é¢˜ã€‘
-1. ç¨‹åºæ— æ³•å¯åŠ¨ï¼š
-   - ç¡®ä¿å·²å®‰è£… Java
-   - ä»¥ç®¡ç†å‘˜èº«ä»½è¿è¡Œç¨‹åº
-   - æ£€æŸ¥æ€æ¯’è½¯ä»¶æ˜¯å¦æ‹¦æˆª
+## ¿ìËÙ¿ªÊ¼
 
-2. åŽç«¯æ— å“åº”ï¼š
-   - æ£€æŸ¥ 8080 ç«¯å£æ˜¯å¦è¢«å ç”¨
-   - é‡å¯ç¨‹åº
-   - ç¡®è®¤é˜²ç«å¢™è®¾ç½®
+### 1. ¿ËÂ¡ÏîÄ¿
+```bash
+git clone https://github.com/yourname/usbviewer.git
+cd usbviewer
+```
 
-3. æ•°æ®æ˜¾ç¤ºå¼‚å¸¸ï¼š
-   - ç‚¹å‡»"é‡æ–°æ‰«æ"åˆ·æ–°æ•°æ®
-   - é‡å¯ç¨‹åº
+### 2. °²×°ÒÀÀµ
+```bash
+npm install
+```
 
+### 3. ×¼±¸ºó¶Ë JAR °üºÍ JDK
+- **ºó¶Ë JAR °ü**£ºÇë½« `USBmonitor-4.jar` ·ÅÈë `resources/` Ä¿Â¼£¨»ò×ÔÐÐ±àÒëºó¶Ë Spring Boot ÏîÄ¿£©¡£
+- **JDK**£ºÏÂÔØ [OpenJDK 17+](https://adoptium.net/temurin/releases/?version=17) ²¢½âÑ¹µ½ `resources/jdk` Ä¿Â¼£¨Ä¿Â¼½á¹¹Ðè°üº¬ `bin/java.exe`£©¡£
+
+### 4. Æô¶¯¿ª·¢»·¾³
+```bash
+npm start
+```
+
+### 5. ´ò°üÓ¦ÓÃ
+```bash
+npm run dist
+```
+´ò°ü²úÎïÔÚ `dist/` Ä¿Â¼ÏÂ£¬°üº¬°²×°°æºÍ±ãÐ¯°æ¡£
+
+## ÔËÐÐ»·¾³ÒªÇó
+- Windows 7 »ò¸ü¸ß°æ±¾
+- JDK 17 »ò¸ü¸ß°æ±¾£¨ÍÆ¼öÊ¹ÓÃËæÓ¦ÓÃÒ»Í¬·Ö·¢µÄ±ãÐ¯Ê½ JDK£©
+- È·±£ 8080 ¶Ë¿ÚÎ´±»Õ¼ÓÃ
+
+## ³£¼ûÎÊÌâ
+- **³ÌÐòÎÞ·¨Æô¶¯**
+  - ¼ì²é JDK ÊÇ·ñÕýÈ··ÅÖÃ
+  - ÒÔ¹ÜÀíÔ±Éí·ÝÔËÐÐ
+  - ¼ì²éÉ±¶¾Èí¼þÊÇ·ñÀ¹½Ø
+- **ºó¶ËÎÞÏìÓ¦**
+  - ¼ì²é 8080 ¶Ë¿ÚÊÇ·ñ±»Õ¼ÓÃ
+  - ÖØÆô³ÌÐò
+  - ¼ì²é·À»ðÇ½ÉèÖÃ
+- **Ò³ÃæÑùÊ½¶ªÊ§**
+  - È·ÈÏ `assets/bootstrap.min.css` ºÍ `assets/bootstrap.bundle.min.js` ÎÄ¼þ´æÔÚ
+- **Êý¾ÝÒì³£**
+  - µã»÷¡°ÖØÐÂÉ¨Ãè¡±Ë¢ÐÂ
+  - ÖØÆô³ÌÐò
+
+## ²ÎÓë¹±Ï×
+»¶Ó­ issue¡¢PR ºÍ½¨Òé£¡
+
+## ¿ªÔ´Ð­Òé
+MIT License
+
+## ÁªÏµ·½Ê½
+×÷Õß£ºKevin Huang  
