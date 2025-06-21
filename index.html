@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USB 设备监控</title>  <link href="assets/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // 确保样式文件正确加载
+    window.addEventListener('DOMContentLoaded', (event) => {
+      // 强制重新应用样式
+      document.body.style.display = 'none';
+      document.body.offsetHeight; // 触发重排
+      document.body.style.display = '';
+    });
+  </script>
+</head>
+<body class="container mt-4">
+  <h2 class="mb-4">USB 设备信息</h2>
+
+  <div class="mb-3">
+    <button id="refreshBtn" class="btn btn-primary me-2">重新扫描</button>
+    <button id="showAllBtn" class="btn btn-outline-primary me-2">显示全部</button>
+    <button id="connectedBtn" class="btn btn-secondary me-2">仅显示已连接设备</button>
+    <button id="vendorStatsBtn" class="btn btn-warning me-2">厂商统计</button>
+    <button id="timeseriesBtn" class="btn btn-dark me-2">时间序列</button>
+    <button id="exportJsonBtn" class="btn btn-success me-2">导出为 JSON</button>
+    <button id="exportCsvBtn" class="btn btn-info me-2">导出为 CSV</button>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6 mb-2 d-flex">
+      <input id="vendorInput" type="text" class="form-control me-2" placeholder="输入厂商名进行过滤">
+      <button id="filterVendorBtn" class="btn btn-outline-primary">厂商过滤</button>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-md-4 mb-2">
+      <input id="startTimeInput" type="datetime-local" class="form-control" placeholder="起始时间">
+    </div>
+    <div class="col-md-4 mb-2">
+      <input id="endTimeInput" type="datetime-local" class="form-control" placeholder="结束时间">
+    </div>
+    <div class="col-md-2 mb-2">
+      <button id="filterTimeBtn" class="btn btn-outline-success w-100">时间过滤</button>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>设备名称</th>
+        <th>厂商</th>
+        <th>序列号</th>
+        <th>首次插入时间</th>
+        <th>最后插入时间</th>
+        <th>当前状态</th>
+      </tr>
+    </thead>
+    <tbody id="deviceTableBody">
+      <!-- 设备信息 -->
+    </tbody>
+  </table>
+  <p id="info"></p>
+
+  <!-- 厂商统计弹窗 -->
+  <div class="modal fade" id="vendorModal" tabindex="-1" aria-labelledby="vendorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="vendorModalLabel">厂商统计</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="vendorStatsBody">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 时间序列弹窗 -->
+  <div class="modal fade" id="timeseriesModal" tabindex="-1" aria-labelledby="timeseriesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="timeseriesModalLabel">USB 设备插拔时间序列</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="timeseriesBody">
+        </div>
+      </div>
+    </div>
+  </div>  <script src="assets/bootstrap.bundle.min.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Node
+node_modules/
+dist/
+*.log
+*.exe
+*.zip
+
+# Java
+resources/jdk/
+resources/USBmonitor-4.jar
+
+# VSCode
+.vscode/
+
+# 不忽略assets目录及其内容（如需忽略临时或大文件可单独指定）
+# 保证assets/下的所有前端依赖都能上传

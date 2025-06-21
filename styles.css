@@ -1,0 +1,116 @@
+body {
+  background-color: #f4f6f8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  color: #0a5e8c;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.table {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+#refreshBtn, #showAllBtn, #exportJsonBtn, #exportCsvBtn {
+  min-width: 130px;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  transition: all 0.2s ease-in-out;
+}
+
+#info {
+  margin-top: 20px;
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+#refreshBtn:hover,
+#exportJsonBtn:hover,
+#exportCsvBtn:hover {
+  background-color: #0b5ed7;
+  color: #fff;
+}
+
+#info {
+  margin-top: 20px;
+  color: #6c757d;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/* 新增功能区样式 */
+#vendorInput, #startTimeInput, #endTimeInput {
+  min-width: 120px;
+}
+#filterVendorBtn, #filterTimeBtn {
+  min-width: 100px;
+}
+#vendorStatsBody ul, #timeseriesBody ul {
+  padding-left: 1.2em;
+}
+#vendorStatsBody li, #timeseriesBody li {
+  font-size: 1rem;
+  margin-bottom: 0.3em;
+}
+.modal-content {
+  border-radius: 10px;
+}
+.pagination {
+  margin-top: 10px;
+}
+.pagination .page-item .page-link {
+  color: #0a5e8c;
+  border-radius: 6px;
+  margin: 0 2px;
+}
+.pagination .page-item.active .page-link {
+  background-color: #0a5e8c;
+  color: #fff;
+  border-color: #0a5e8c;
+}
+.pagination .page-item.disabled .page-link {
+  color: #aaa;
+  pointer-events: none;
+  background: #f4f6f8;
+}
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .table th, .table td {
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  #refreshBtn, #exportJsonBtn, #exportCsvBtn {
+    min-width: 110px;
+    font-size: 0.9rem;
+  }
+  #vendorInput, #startTimeInput, #endTimeInput {
+    min-width: 80px;
+    font-size: 0.9rem;
+  }
+  #filterVendorBtn, #filterTimeBtn {
+    min-width: 80px;
+    font-size: 0.9rem;
+  }
+  #vendorStatsBody li, #timeseriesBody li {
+    font-size: 0.85rem;
+  }
+}
