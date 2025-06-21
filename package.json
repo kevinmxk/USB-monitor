@@ -6,9 +6,16 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --win",
-    "postinstall": "electron-builder install-app-deps"
-  },
+    "dist": "electron-builder --win --linux",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux",
+    "dist:mac": "electron-builder --mac",
+    "dist:all": "electron-builder --win --linux --mac",
+    "build:clean": "rimraf dist",
+    "prebuild": "npm run build:clean",
+    "postinstall": "electron-builder install-app-deps",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
   "author": "kevin huang",
   "license": "MIT",
   "dependencies": {
