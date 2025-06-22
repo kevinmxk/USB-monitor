@@ -54,8 +54,10 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-      - name: Clean electron-builder cache
-        run: rm -rf ~/.cache/electron-builder/fpm || true
+      - name: Set npm registry
+        run: npm config set registry https://registry.npmmirror.com
+      - name: Clean all electron-builder cache
+        run: rm -rf ~/.cache/electron-builder || true
       - name: Install system dependencies
         run: |
           sudo apt-get update
@@ -74,8 +76,11 @@ jobs:
         run: |
           npm ci
           npm run postinstall
-      - name: Build Linux application
-        run: npm run dist:linux
+      - name: Build Linux application (with retry)
+        run: |
+          for i in 1 2 3; do
+            npm run dist:linux && break || sleep 10
+          done
       - name: List dist files
         run: ls dist
       - name: Upload Linux artifacts
