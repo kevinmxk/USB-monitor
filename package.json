@@ -36,11 +36,12 @@
     "lint": "echo \"No linting configured\"",
     "prepare": "npm run build:clean"
   },
-  "author": {
-    "name": "Kevin Huang",
-    "email": "kevin@example.com"
-  },
+  "author": "Kevin Huang",
   "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/your-username"
+  },
   "dependencies": {
     "axios": "^1.9.0",
     "bootstrap": "^5.3.0"
@@ -75,7 +76,8 @@
       "!node_modules/**/*.md",
       "!node_modules/**/LICENSE*",
       "!**/.git/**/*",
-      "!**/node_modules/**/README*"
+      "!**/node_modules/**/README*",
+      "resources/icon-512.png"
     ],
     "extraResources": [
       {
@@ -102,6 +104,10 @@
       {
         "from": "assets",
         "to": "assets"
+      },
+      {
+        "from": "resources/icon-512.png",
+        "to": "icon-512.png"
       }
     ],
     "win": {
@@ -115,7 +121,7 @@
           "arch": ["x64", "ia32"]
         }
       ],
-      "icon": "resources/icon.ico",
+      "icon": "resources/icon-512.png",
       "signAndEditExecutable": false,
       "requestedExecutionLevel": "asInvoker",
       "fileAssociations": [
@@ -146,7 +152,7 @@
           "arch": ["x64"]
         }
       ],
-      "icon": "resources/icon.png",
+      "icon": "resources/icon-512.png",
       "category": "Utility",
       "maintainer": "Kevin Huang <kevin@example.com>",
       "vendor": "Kevin Huang",
@@ -171,7 +177,7 @@
           "arch": ["x64", "arm64"]
         }
       ],
-      "icon": "resources/icon.icns",
+      "icon": "resources/icon-512.png",
       "category": "public.app-category.utilities",
       "darkModeSupport": true
     },
