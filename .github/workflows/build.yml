@@ -28,6 +28,7 @@ jobs:
           npm ci
           npm run postinstall
       - name: Download backend jar
+        shell: cmd
         run: |
           if not exist resources mkdir resources
           curl -L "https://github.com/kevinmxk/USB-monitor/releases/download/v1.1.0/USBmonitor-4.jar" -o resources/USBmonitor-4.jar
